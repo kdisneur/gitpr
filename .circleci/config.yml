@@ -1,0 +1,51 @@
+version: 2
+
+jobs:
+  setup:
+    docker:
+      - image: circleci/golang:1.11.5
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependency-cache
+      - run:
+          command: |
+            if [[ ! -f ~/tools/ghr ]]; then
+              mkdir -p ~/tools
+              go get github.com/tcnksm/ghr
+              mv /go/bin/ghr ~/tools
+            fi
+      - save_cache:
+          key: v1-dependency-cache
+          paths:
+            - ~/tools
+
+  publish:
+    docker:
+      - image: circleci/golang:1.11.5
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependency-cache
+      - run:
+          command: |
+            IS_PRERELEASE=$(if [ "${CIRCLE_BRANCH}" = "master" ]; then echo ""; else echo "-prerelease"; fi)
+            mkdir release
+            tar czf release/gitpr.tgz gitpr
+            ~/tools/ghr -t ${GITHUB_TOKEN} \
+                -u ${CIRCLE_PROJECT_USERNAME} \
+                -r ${CIRCLE_PROJECT_REPONAME} \
+                -c ${CIRCLE_SHA1} \
+                ${IS_PRERELEASE} \
+                r-$(git rev-parse --short HEAD) ./release
+
+workflows:
+  version: 2
+  gitpr:
+    jobs:
+      - setup
+      - publish:
+          requires:
+            - setup

@@ -1,0 +1,13 @@
+asset: gitpr.tgz
+tap: kdisneur/homebrew-formulae/Formula/gitpr.rb
+template: |
+  class Gitpr < Formula
+    desc     "$REPO_DESCRIPTION"
+    homepage "$REPO_WEBSITE"
+    version  "$STABLE_VERSION"
+    url      "$STABLE_URL"
+    sha256   "$STABLE_SHA256"
+    def install
+      bin.install "gitpr"
+    end
+  end

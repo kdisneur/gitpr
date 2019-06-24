@@ -1,0 +1,14 @@
+= Git PR
+
+Open a text editor with a template of pull-request. When editing is finished, open the GitHub pull-request page with the content of the pull-request already copied in the clipboard.
+
+== Environment variables
+
+|===
+| Name | Description
+
+| EDITOR
+| (default: vim) the text editor to open
+
+| GITPR_TEMPLATE
+| (default: empty) override the default PR template. Any `<ISSUE_NUMBER>` placeholder will be replaced with the issue number if one is found.
