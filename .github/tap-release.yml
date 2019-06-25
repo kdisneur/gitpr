@@ -7,6 +7,7 @@ template: |
     version  "$STABLE_VERSION"
     url      "$STABLE_URL"
     sha256   "$STABLE_SHA256"
+
     def install
       bin.install "gitpr"
     end
