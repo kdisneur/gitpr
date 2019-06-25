@@ -31,6 +31,7 @@ jobs:
             - v1-dependency-cache
       - run:
           command: |
+            VERSION=$(cat VERSION);
             IS_PRERELEASE=$(if [ "${CIRCLE_BRANCH}" = "master" ]; then echo ""; else echo "-prerelease"; fi)
             mkdir release
             tar czf release/gitpr.tgz gitpr
@@ -39,7 +40,7 @@ jobs:
                 -r ${CIRCLE_PROJECT_REPONAME} \
                 -c ${CIRCLE_SHA1} \
                 ${IS_PRERELEASE} \
-                r-$(git rev-parse --short HEAD) ./release
+                ${VERSION} ./release
 
 workflows:
   version: 2
