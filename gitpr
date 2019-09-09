@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-EDITOR=${EDITOR:-vim};
+GITPR_EDITOR=${GITPR_EDITOR:-${EDITOR:-vim}};
 GITPR_TEMPLATE=${GITPR_TEMPLATE:-};
 
 hasIssueNumer() {
@@ -62,7 +62,7 @@ fi
 
 sed -i'' -e "s/<ISSUE_NUMBER>/${issue}/" ${template}
 
-${EDITOR} ${template};
+eval "${GITPR_EDITOR} ${template}";
 
 pbcopy < ${template};
 
